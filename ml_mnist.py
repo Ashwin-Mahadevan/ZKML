@@ -25,28 +25,27 @@ y_test = to_categorical(y_test)
 
 
 def custom_activation(x):
-    return K.square(x)
+    return K.relu(x)
 
 
 # Define the model architecture
 model = Sequential()
 
 initializer = initializers.Constant(
-    value=np.random.randint(-2**6, 2**6, size=(784, 512)))
+    value=np.random.randint(-2**2, 2**2, size=(784, 512)))
 model.add(Dense(512, activation=custom_activation,
                 input_shape=(784,), kernel_initializer=initializer))
 initializer = initializers.Constant(
-    value=np.random.randint(-2**6, 2**6, size=(512, 512)))
-model.add(Dense(512, activation=custom_activation, kernel_initializer=initializer))
+    value=np.random.randint(-2**2, 2**2, size=(512, 512)))
+model.add(Dense(512, activation=custom_activation,
+          kernel_initializer=initializer))
 initializer = initializers.Constant(
-    value=np.random.randint(-2**6, 2**6, size=(512, 10)))
+    value=np.random.randint(-2**2, 2**2, size=(512, 10)))
 model.add(Dense(10, activation='softmax', kernel_initializer=initializer))
 
 
-# Compile the model with the new loss function
-
-
 def integer_penalty_categorical_crossentropy(y_true, y_pred, integer_penalty=1.0):
+
     # Compute the categorical crossentropy loss
     cc_loss = categorical_crossentropy(y_true, y_pred)
 
